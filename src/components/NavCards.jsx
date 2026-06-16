@@ -49,9 +49,27 @@ const cards = [
       </svg>
     ),
   },
+  {
+    title: 'Business Intelligence',
+    desc: 'Análisis de datos y toma de decisiones estratégicas basados en datos ERP-CRM-MRP',
+    href: 'https://app.powerbi.com/view?r=eyJrIjoiZGYwZDI2YWYtNzM1Mi00NTBmLTk1YjktMjJiZDEyMjhhN2M1IiwidCI6ImRiZTE3OTkxLTNmOTItNGYzNi04YjQ3LTIxZjE2MTc3Y2RlZiIsImMiOjR9&disablecdnExpiration=1778798974',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full">
+        <path d="M3 21h18" />
+        <rect x="6" y="11" width="3" height="7" rx="0.5" fill="currentColor" stroke="none" />
+        <rect x="11" y="7" width="3" height="11" rx="0.5" fill="currentColor" stroke="none" />
+        <rect x="16" y="4" width="3" height="14" rx="0.5" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
 ]
 
+import Swal from 'sweetalert2'
+import { useState } from 'react'
+import PowerBIModal from './PowerBIModal'
+
 export default function NavCards() {
+  const [biOpen, setBiOpen] = useState(false)
   return (
     <>
       <h1
@@ -69,6 +87,33 @@ export default function NavCards() {
           <a
             key={card.title}
             href={card.href}
+            role="button"
+            tabIndex={0}
+            aria-controls="powerbi-modal"
+            aria-expanded={card.title === 'Business Intelligence' ? biOpen : undefined}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                e.currentTarget.click()
+              }
+            }}
+            onClick={(e) => {
+              if (card.href === '#') {
+                e.preventDefault()
+                Swal.fire({
+                  icon: 'info',
+                  title: 'Aplicacion en desarrollo... no disponible',
+                  confirmButtonText: 'Cerrar',
+                })
+                return
+              }
+
+              // Open BI modal for Business Intelligence card or empty href
+              if (card.title === 'Business Intelligence' || card.href === '') {
+                e.preventDefault()
+                setBiOpen(true)
+              }
+            }}
             className="group relative flex flex-col items-center gap-3 px-6 py-8 md:py-10 rounded-2xl bg-white/60 backdrop-blur-sm border border-gray-200/60 hover:border-primary/30 hover:bg-white hover:shadow-lg hover:scale-[1.04] hover:z-10 transition-all duration-300"
           >
             <div className="size-11 p-2.5 rounded-xl bg-primary/5 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
@@ -91,6 +136,12 @@ export default function NavCards() {
           </a>
         ))}
       </div>
+        <PowerBIModal
+          src={"https://app.powerbi.com/view?r=eyJrIjoiZGYwZDI2YWYtNzM1Mi00NTBmLTk1YjktMjJiZDEyMjhhN2M1IiwidCI6ImRiZTE3OTkxLTNmOTItNGYzNi04YjQ3LTIxZjE2MTc3Y2RlZiIsImMiOjR9"}
+          title={"Dashboard - Jefe de Ventas"}
+          open={biOpen}
+          onClose={() => setBiOpen(false)}
+        />
     </>
   )
 }
