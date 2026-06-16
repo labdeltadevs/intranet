@@ -4,5 +4,5 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: 'https://labdeltadevs.github.io/intranet.github.io',
+  base: 'https://labdeltadevs.github.io/intranet',
 })
