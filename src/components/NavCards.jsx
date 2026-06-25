@@ -109,32 +109,32 @@ const cards = [
 import Swal from 'sweetalert2'
 import { useState } from 'react'
 import PowerBIModal from './PowerBIModal'
-import biReports from '../data/biReports'
+import biData from '../data/biReports'
 
 export default function NavCards() {
   const [biOpen, setBiOpen] = useState(false)
   const [biSrc, setBiSrc] = useState('')
 
   async function showBIList() {
-    if (!biReports || biReports.length === 0) {
+    if (!biData || !biData.reports || biData.reports.length === 0) {
       Swal.fire('No hay reportes', 'No se encontraron reportes configurados.', 'info')
       return
     }
 
-    const inputOptions = {}
-    biReports.forEach((r, i) => (inputOptions[i] = r.title))
+    const { inputOptions, reports } = biData
+    const reportsById = {}
+    reports.forEach((r) => (reportsById[r.id] = r))
 
-    const { value: selected } = await Swal.fire({
-      title: 'Selecciona un reporte',
+    const { value: selectedId } = await Swal.fire({
+      title: 'Selecciona un reporte visual',
       input: 'select',
       inputOptions,
-      inputPlaceholder: 'Selecciona...',
+      inputPlaceholder: 'Seleccionar...',
       showCancelButton: true,
     })
 
-    if (selected === undefined || selected === null) return
-    const idx = parseInt(selected, 10)
-    const report = biReports[idx]
+    if (selectedId === undefined || selectedId === null) return
+    const report = reportsById[selectedId]
     if (!report) return
 
     const { value: pin } = await Swal.fire({
@@ -157,7 +157,7 @@ export default function NavCards() {
     <>
       <div className="mx-auto mb-10 w-full max-w-4xl rounded-[2rem] border border-white/20 bg-white/80 p-8 backdrop-blur-xl shadow-2xl shadow-slate-950/20">
         <div className="text-center">
-          <p className="text-xs uppercase tracking-[0.4em] text-slate-800/80 mb-4">Intranet Corporativa</p>
+          <p className="text-sm uppercase tracking-[0.4em] text-slate-800/80 mb-4">Intranet Corporativa</p>
           <h1 className="text-4xl md:text-5xl font-semibold text-orange-500 tracking-tight">Laboratorios DELTA S.A.</h1>
         </div>
       </div>
@@ -165,8 +165,7 @@ export default function NavCards() {
       <div className="mx-auto mb-10 w-full max-w-4xl rounded-[2rem] border border-white/20 bg-white/80 p-6 backdrop-blur-xl shadow-2xl shadow-slate-950/15">
         <div className="text-center">
           <div>
-            <p className="text-xs uppercase tracking-[0.45em] text-slate-800/80">Panel de acceso</p>
-            <h2 className="mt-2 text-xl font-semibold text-gray-800">Selecciona la aplicación del área que necesitas</h2>
+            <h2 className="text-xl font-semibold text-gray-800">Selecciona la aplicación del área que necesitas</h2>
           </div>
         </div>
       </div>
