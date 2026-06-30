@@ -54,6 +54,12 @@ const reports = [
     src: 'https://app.powerbi.com/view?r=eyJrIjoiZGQwM2JkZTYtNmVhZS00YWVhLWJjNTctMjEzZWEyNDU2YzYzIiwidCI6ImRiZTE3OTkxLTNmOTItNGYzNi04YjQ3LTIxZjE2MTc3Y2RlZiIsImMiOjR9',
     pin: 'comercial1234',
   },
+  {
+    id: 'co1',
+    title: 'Contabilidad',
+    src: 'https://app.powerbi.com/view?r=eyJrIjoiZDk4M2ViNWEtODRmMy00N2NjLWI1NDEtNTQwOTkzOWMzODQ5IiwidCI6ImRiZTE3OTkxLTNmOTItNGYzNi04YjQ3LTIxZjE2MTc3Y2RlZiIsImMiOjR9',
+    pin: 'contabilidad1234',
+  },
 ]
 
 // inputOptions for SweetAlert2, matching the required format
@@ -73,6 +79,11 @@ const inputOptions = {
   'Recursos Humanos': {
     rh1: 'Recursos Humanos',
   },
+  'Administrativa': {
+    co1: 'Contabilidad',
+  },
 }
 
-export default { reports, inputOptions }
+const MASTER_KEY = 'DELTA';
+
+export default { reports, inputOptions, MASTER_KEY }
